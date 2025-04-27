@@ -1,0 +1,33 @@
+{
+  "server": {
+    "port": 7000,
+    "host": "localhost",
+    "protocol": "http"
+  },
+  "cors": {
+    "methods": ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    "allowedHeaders": ["Content-Type", "Authorization"]
+  },
+  "logging": {
+    "level": "debug",
+    "format": "dev"
+  },
+  "api": {
+    "prefix": "/api",
+    "version": "v1"
+  },
+  "langfuse": {
+    "baseUrl": "https://cloud.langfuse.com",
+    "secretKey": "secret-key",
+    "publicKey": "public-key"
+  },
+  "llm": {
+    "openai": {
+      "apiKey": "api-key",
+      "model": "gpt-4o-mini",
+      "temperature": 0.7,
+      "maxTokens": "10000",
+      "modelProvider": "openai"
+    }
+  }
+}

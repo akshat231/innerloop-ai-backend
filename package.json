@@ -1,0 +1,36 @@
+{
+  "name": "innerloop-ai-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@pinecone-database/pinecone": "^5.1.1",
+    "@prisma/client": "^6.6.0",
+    "body-parser": "^2.2.0",
+    "config": "^3.3.12",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "langchain": "^0.3.23",
+    "langfuse": "^3.37.2",
+    "langfuse-langchain": "^3.37.2",
+    "morgan": "^1.10.0",
+    "openai": "^4.95.1",
+    "prisma": "^6.6.0",
+    "winston": "^3.17.0",
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

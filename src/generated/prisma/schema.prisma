@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  name            String?
+  journalEntries  JournalEntry[]
+  weeklySummaries WeeklySummary[]
+  createdAt       DateTime        @default(now())
+}
+
+model JournalEntry {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  text     String
+  mood     String?
+  emotions String[]
+  themes   String[]
+  tone     String?
+  summary  String?
+
+  createdAt DateTime @default(now())
+}
+
+model WeeklySummary {
+  id          String   @id @default(uuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  weekStart   DateTime
+  weekEnd     DateTime
+  mood        String
+  emotions    String[] // Store as array (Postgres only)
+  themes      String[]
+  patterns    String
+  suggestion  String
+  affirmation String
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, weekStart]) // One summary per week per user
+}
