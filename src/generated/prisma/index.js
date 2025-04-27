@@ -166,6 +166,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -183,16 +187,17 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://neondb_owner:npg_vxc0KoPIED4F@ep-soft-cloud-a1nobpzf-pooler.ap-southeast-1.aws.neon.tech/innerloopai?sslmode=require"
+        "value": null
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id              String          @id @default(cuid())\n  email           String          @unique\n  name            String?\n  journalEntries  JournalEntry[]\n  weeklySummaries WeeklySummary[]\n  createdAt       DateTime        @default(now())\n}\n\nmodel JournalEntry {\n  id     String @id @default(cuid())\n  user   User   @relation(fields: [userId], references: [id])\n  userId String\n\n  text     String\n  mood     String?\n  emotions String[]\n  themes   String[]\n  tone     String?\n  summary  String?\n\n  createdAt DateTime @default(now())\n}\n\nmodel WeeklySummary {\n  id          String   @id @default(uuid())\n  user        User     @relation(fields: [userId], references: [id])\n  userId      String\n  weekStart   DateTime\n  weekEnd     DateTime\n  mood        String\n  emotions    String[] // Store as array (Postgres only)\n  themes      String[]\n  patterns    String\n  suggestion  String\n  affirmation String\n  createdAt   DateTime @default(now())\n\n  @@unique([userId, weekStart]) // One summary per week per user\n}\n",
-  "inlineSchemaHash": "694b14c4c5145f200d3d495ab5ee1695ecc61d7728e08f17524c78090bb596a6",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id              String          @id @default(cuid())\n  email           String          @unique\n  name            String?\n  journalEntries  JournalEntry[]\n  weeklySummaries WeeklySummary[]\n  createdAt       DateTime        @default(now())\n}\n\nmodel JournalEntry {\n  id     String @id @default(cuid())\n  user   User   @relation(fields: [userId], references: [id])\n  userId String\n\n  text     String\n  mood     String?\n  emotions String[]\n  themes   String[]\n  tone     String?\n  summary  String?\n\n  createdAt DateTime @default(now())\n}\n\nmodel WeeklySummary {\n  id          String   @id @default(uuid())\n  user        User     @relation(fields: [userId], references: [id])\n  userId      String\n  weekStart   DateTime\n  weekEnd     DateTime\n  mood        String\n  emotions    String[] // Store as array (Postgres only)\n  themes      String[]\n  patterns    String\n  suggestion  String\n  affirmation String\n  createdAt   DateTime @default(now())\n\n  @@unique([userId, weekStart]) // One summary per week per user\n}\n",
+  "inlineSchemaHash": "d67d19a75097384dbff9ed0a50e949e72c68aecafb63eb139d1957d0c79d1962",
   "copyEngine": true
 }
 
@@ -233,6 +238,10 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
 path.join(process.cwd(), "src/generated/prisma/query_engine-windows.dll.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "src/generated/prisma/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/prisma/schema.prisma")
